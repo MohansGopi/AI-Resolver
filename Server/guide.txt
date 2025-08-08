@@ -1,0 +1,61 @@
+Installation Guide
+
+1. Project Structure
+
+Ensure your directory looks like this:
+
+project-root/
+├── controller.py
+├── sever.py
+├── requirments.txt
+├── Finetune(5)/
+│   └── content/
+│       ├── output/
+│       │   ├── lora_adapter/
+│       │   └── tokenizer/
+
+2. Environment Setup
+
+(a) Python Version:
+Use Python 3.10 or newer:
+    python3 --version
+
+(b) Create Virtual Environment:
+    python3 -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+3. Install Dependencies
+
+    pip install --upgrade pip
+    pip install -r requirments.txt
+
+4. Place Model Files
+
+Ensure the following directories exist:
+- ./Finetune(5)/content/output/lora_adapter/
+- ./Finetune(5)/content/output/tokenizer/
+
+5. Run the API Server
+
+    uvicorn sever:app --host 0.0.0.0 --port 8000
+
+6. Get Your Local IP Address
+
+To access the API from another device on the same network:
+
+- Open another terminal.
+- Type:
+
+      ipconfig   (on Windows)
+      ifconfig   (on Linux/macOS)
+
+- Look for your IPv4 Address (e.g., 192.168.x.x)
+
+Then, from another device, open a browser or use curl/postman to query the API like this:
+
+    http://<your-ip>:8000/Quetry/Your%20question%20here
+
+Example:
+
+    http://192.168.1.100:8000/Quetry/How%20do%20I%20fix%20Outlook?
+

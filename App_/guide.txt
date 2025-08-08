@@ -1,0 +1,108 @@
+Installation Guide - AI Support App (Offline + Online API)
+(for user end)
+
+
+1. Project Structure
+
+Ensure your directory looks like this:
+
+project-root/
+├── app_.py                      # Main UI application
+├── OflineController.py         # Offline AI response logic
+├── requirments.txt             # Python dependencies
+├── Finetune/
+│   └── content/
+│       ├── output/
+│           ├── tokenizer/
+│           └── adapter_model/
+├── powerSHellScripts/          # Contains .ps1 and .sh scripts for auto-fixes
+
+2. Environment Setup
+
+(a) Check Python Version:
+    python --version   # Should be Python 3.10+
+
+(b) Create Virtual Environment:
+    python -m venv venv
+    source venv/bin/activate     # Windows: venv\Scripts\activate
+
+3. Install Dependencies
+
+    pip install --upgrade pip
+    pip install -r requirments.txt
+
+4. Prepare Model Files
+
+Ensure the following paths exist:
+- ./Finetune/content/output/tokenizer/
+- ./Finetune/content/output/adapter_model/
+
+5. Update API Link to Use Local IP Address
+
+If your FastAPI backend is running on another machine:
+
+(a) On the backend machine, open another terminal and type:
+
+    Windows:
+        ipconfig
+    Linux/macOS:
+        ifconfig
+
+(b) Copy the IPv4 Address (e.g., 192.168.1.42)
+
+(c) Open app_.py and replace this line:
+    response = requests.get(f"http://127.0.0.1:8000/Quetry/{user_input}")
+
+    With:
+    response = requests.get(f"http://192.168.1.42:8000/Quetry/{user_input}")
+    # Replace with your actual IP address
+
+6. Run the App (for testing)
+
+    python app_.py
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Build Guide: Create app_.exe with All Submodules and Data Using PyInstaller
+
+1. Install PyInstaller
+-----------------------
+Make sure you're in your virtual environment:
+
+    pip install pyinstaller
+
+
+2. Build Command (for Windows)
+-------------------------------
+
+Use this full command in your terminal or build script:
+
+    pyinstaller --onefile --noconsole ^
+    --add-data "Finetune;Finetune" ^
+    --add-data "powerSHellScripts;powerSHellScripts" ^
+    --add-data "requirments.txt;." ^
+    --hidden-import=customtkinter ^
+    --hidden-import=torch ^
+    --hidden-import=transformers ^
+    --hidden-import=peft ^
+    --hidden-import=requests ^
+    --hidden-import=platform ^
+    --hidden-import=threading ^
+    --hidden-import=time ^
+    --hidden-import=subprocess ^
+    app_.py
+
+Note:
+- Use semicolons (;) to separate paths on Windows.
+- Replace `^` with `\` for multi-line continuation on Unix-like systems.
+- On Linux/macOS, use colons (:) instead of semicolons (;) in --add-data.
+
+3. Output
+----------
+After successful build, your EXE file will be found here:
+
+    dist/app_.exe
+
+You're all set!
+
